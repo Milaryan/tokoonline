@@ -100,6 +100,14 @@ $sum = $row[0];
                                     </div>
                                     <div>
                                         <input type="hidden" name="total_berat" value="1200">
+                                        <input type="text" name="letak_provinsi">
+                                        <input type="text" name="letak_kota" id="">
+                                        <input type="text" name="tipe" id="">
+                                        <input type="text" name="kodepos" id="">
+                                        <input type="text" name="nama_ekspedisi" id="">
+                                        <input type="text" name="nama_paket" id="">
+                                        <input type="text" name="jml_ongkir" id="">
+                                        <input type="text" name="estimasi" id="">
                                     </div>
                                     <div class="col-12 mb-3">
                                         <input type="text" class="form-control mb-3" id="street_address" placeholder="Alamat Lengkap" value="">
@@ -257,10 +265,34 @@ $sum = $row[0];
                 data:'ekspedisi='+ekspedisi_pilihan+'&kota='+kota_pilihan+'&berat='+total_berat,
                 success:function(hasilp){
                     $("select[name=paket").html(hasilp);
+
+                    //lrtakkan nama ekspedisi terpilih di input ekspedisi
+                    $("input[name=nama_ekspedisi]").val(ekspedisi_pilihan)
                 }
-            });
-        });
-        });
+             });
+         });
+         $("select[name=kota").on("change", function(){
+            var prov = $("option:selected",this).attr("nama_provinsi");
+            var dist=  $("option:selected",this).attr("nama_kota");
+            var tipe= $("option:selected",this).attr("tipe");
+            var code= $ ("option:selected", this).attr("kode_pos");
+
+            $("input[name=letak_provinsi]").val(prov);
+            $("input[name=letak_kota]").val(dist);
+            $("input[name=tipe]").val(tipe);
+            $("input[name=kodepos]").val(code);
+         });
+         $("select[name=paket]").on("change",function(){
+             var paket= $("option:selected",this).attr("paket");
+             var ongkir= $("option:selected",this).attr("ongkir");
+             var etd= $("option:selected",this).attr("etd");
+
+            $("input[name=nama_paket]").val(paket);
+            $("input[name=jml_ongkir]").val(ongkir);
+            $("input[name=estimasi]").val(etd);
+            
+         })
+    });
     </script>
 
 </body>
