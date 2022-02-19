@@ -105,7 +105,7 @@ if (isset($_POST["register"])) {
                             <input type="email" class="form-control" id="email" name="email" required autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <label for="password">Password:</label>
+                            <label for="password">Buat Password:</label>
                             <input type="password" class="form-control" id="password" name="password" required autocomplete="off">
                         </div>
                         <div class="form-group">

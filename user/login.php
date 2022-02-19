@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once "fdatatk.php";
+
 // cek cookie
 if (isset($_COOKIE['id']) && isset($_COOKIE['key'])) {
     $id = $_COOKIE['id'];
