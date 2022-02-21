@@ -1,25 +1,11 @@
 <?php
-include_once "fcheck.php";
+include_once "fdatatk.php";
 session_start();
 
 $uid = $_SESSION["uid"];
-$tgl = date('d-m-Y');
-$uit = $tgl . $uid;
 $res = mysqli_query($connect, "SELECT SUM(harga * qty) FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
 $row = mysqli_fetch_row($res);
 $sum = $row[0];
-
-if (isset($_POST["submit"])) {
-    if (tambahdata($_POST) > 0 & checkongkir($_POST) > 0) {
-        echo "<script>alert('data berhasil ditambahkan');
-        document.location.href = '#';</script> ";
-    } else {
-        echo "<script>alert('data gagal ditambahkan');
-        document.location.href = '#';</script> ";
-        var_dump($connect);
-    }
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,19 +74,19 @@ if (isset($_POST["submit"])) {
                                 <h2>Formulir</h2>
                             </div>
 
-                            <form method="post">
+                            <form action="#" method="post">
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" name="nama_depan" id="nama_depan" placeholder="Nama Depan" value="" required>
+                                        <input type="text" class="form-control" id="first_name" placeholder="Nama Depan" value="" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" name="nama_belakang" id="nama_belakang" value="" placeholder="Nama Belakang" required>
+                                        <input type="text" class="form-control" id="last_name" value="" placeholder="Nama Belakang" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="">
+                                        <input type="email" class="form-control" id="email" placeholder="Email" value="">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" name="perusahaan" id="perusahaan" placeholder="Nama Perusahaan" value="">
+                                        <input type="text" class="form-control" id="company" placeholder="Nama Perusahaan" value="">
                                     </div>
                                     <div class="col-md-6 mb-3 halo">
                                         <select class="w-100" id="provinsi" name="provinsi">
@@ -114,22 +100,20 @@ if (isset($_POST["submit"])) {
                                     </div>
                                     <div>
                                         <input type="hidden" name="total_berat" value="1200">
-                                        <input type="hidden" name="letak_provinsi" >
-                                        <input type="hidden" name="letak_kota">
-                                        <input type="hidden" name="tipe">
-                                        <input type="hidden" name="kodepos">
-                                        <input type="hidden" name="nama_ekspedisi">
-                                        <input type="hidden" name="nama_paket">
-                                        <input type="hidden" name="jml_ongkir">
-                                        <input type="hidden" name="estimasi">
-                                        <input type="hidden" name="tgl" value="<?= $tgl;?>">
-                                        <input type="hidden" name="user_id" value="<?= $uid;?>">
+                                        <input type="text" name="letak_provinsi">
+                                        <input type="text" name="letak_kota" id="">
+                                        <input type="text" name="tipe" id="">
+                                        <input type="text" name="kodepos" id="">
+                                        <input type="text" name="nama_ekspedisi" id="">
+                                        <input type="text" name="nama_paket" id="">
+                                        <input type="text" name="jml_ongkir" id="">
+                                        <input type="text" name="estimasi" id="">
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <input type="text" class="form-control mb-3" name="alamat_lengkap" id="alamat_lengkap" placeholder="Alamat Lengkap" value="">
+                                        <input type="text" class="form-control mb-3" id="street_address" placeholder="Alamat Lengkap" value="">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input type="number" class="form-control" name="no_hp" id="no_hp" min="0" placeholder="No. Telp/Handpone" value="">
+                                        <input type="number" class="form-control" id="phone_number" min="0" max="12" placeholder="No. Telp/Handpone" value="">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <input type="text" class="form-control" name="kodepos" id="kodepos" placeholder="Kode Pos" value="">
@@ -145,10 +129,7 @@ if (isset($_POST["submit"])) {
                                         </select>
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <textarea name="comment" class="form-control w-100" name="comment" id="comment" cols="30" rows="10" placeholder="Tinggalkan Pesan Untuk Pesanan Anda"></textarea>
-                                    </div>
-                                    <div class="cart-btn col-3 mb-3">
-                                        <button type="submit" name="submit" class="btn amado-btn w-100">Buat Pesanan</button>
+                                        <textarea name="comment" class="form-control w-100" id="comment" cols="30" rows="10" placeholder="Tinggalkan Pesan Untuk Pesanan Anda"></textarea>
                                     </div>
 
                                     <div class="col-12">
@@ -168,7 +149,12 @@ if (isset($_POST["submit"])) {
                     <div class="col-12 col-lg-4">
                         <div class="cart-summary">
                             <h5>Cart Total</h5>
-                            
+                            <ul class="summary-table">
+                                <li><span>subtotal:</span> <span><?= number_format($sum); ?></span></li>
+                                <li><span>delivery:</span> <span><?= number_format()?></span></li>
+                                <li><span>total:</span> <span><?= number_format($sum); ?></span></li>
+                            </ul>
+
                             <div class="payment-method">
                                 <!-- Cash on delivery -->
                                 <div class="custom-control custom-checkbox mr-sm-2">
@@ -182,7 +168,9 @@ if (isset($_POST["submit"])) {
                                 </div>
                             </div>
 
-                            
+                            <div class="cart-btn mt-100">
+                                <a href="#" class="btn amado-btn w-100">Checkout</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -302,12 +290,10 @@ if (isset($_POST["submit"])) {
         $("input[name=nama_paket]").val(paket);
         $("input[name=jml_ongkir]").val(ongkir);
         $("input[name=estimasi]").val(etd);
-        $("span[for=ongkir]").val(ongkir);
         
     });
 });
     </script>
-    
 </body>
 
 </html>
