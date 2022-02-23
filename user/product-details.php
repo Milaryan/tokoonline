@@ -1,7 +1,12 @@
 <?php
 session_start();
 include_once "fdatatk.php";
-include_once "connect.php";
+if (!isset($_SESSION["login"])) {
+    header("location: login.php");
+}
+if ($_SESSION["role"] == "admin") {
+    header("location: ../admin/index3.php");
+ }
 $id = $_GET['id'];
 $ubah = barang("SELECT * FROM barang WHERE id = $id")[0];
 ?>

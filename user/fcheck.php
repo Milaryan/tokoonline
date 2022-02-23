@@ -22,28 +22,39 @@ function tambahdata($data)
     $nama2 = htmlspecialchars($data["nama_belakang"]);
     $email = htmlspecialchars($data["email"]);
     $perusahaan = htmlspecialchars($data["perusahaan"]);
-    $prov = htmlspecialchars($data["provinsi"]);
-    $kota = htmlspecialchars($data["tipe"]." ".$data["kota"]);
+    $prov = htmlspecialchars($data["letak_provinsi"]);
+    $kota = htmlspecialchars($data["tipe"]." ".$data["letak_kota"]);
     $alamat = htmlspecialchars($data["alamat_lengkap"]);
     $no_hp = htmlspecialchars($data["no_hp"]);
     $kodepos = htmlspecialchars($data["kodepos"]);
     $pesan = htmlspecialchars($data["comment"]);
-    
+    $ekspedisi = htmlspecialchars($data["nama_ekspedisi"]);
+    $paket = htmlspecialchars($data["nama_paket"]);
+    $ongkir = htmlspecialchars($data["jml_ongkir"]);
+    $pembelian = htmlspecialchars($data["pembelian"]);
+    $estimasi = htmlspecialchars($data["estimasi"]);
+    $tgl = htmlspecialchars($data["tgl"]);
+    $idt = $data["idt"];
 
     $query = "INSERT INTO alamat VALUES ('','$uid','$nama1','$nama2','$email','$perusahaan','$prov','$kota','$alamat', '$no_hp','$kodepos','$pesan')";
+    $query1 = "INSERT INTO ongkir VALUES ('','$uid','$idt','$ekspedisi','$paket','$ongkir','$pembelian','$estimasi','$tgl')";
+    $query2 = "INSERT INTO nota Values ('','$uid','$idt')";
+
     mysqli_query($connect, $query);
+    mysqli_query($connect, $query1);
+    mysqli_query($connect, $query2);
     return mysqli_affected_rows($connect);
 }
 function checkongkir($helo){
     global $connect;
+    $uid = htmlspecialchars($helo["user_id"]);
     $ekspedisi = htmlspecialchars($helo["nama_ekspedisi"]);
     $paket = htmlspecialchars($helo["nama_paket"]);
     $ongkir = htmlspecialchars($helo["jml_ongkir"]);
     $estimasi = htmlspecialchars($helo["estimasi"]);
     $tgl = htmlspecialchars($helo["tgl"]);
     
-    $query = "INSERT INTO ongkir VALUES ('','$ekspedisi','$paket','$ongkir','$estimasi','$tgl'";
+    $query = "INSERT INTO ongkir VALUES ('','$uid','$ekspedisi','$paket','$ongkir','$estimasi','$tgl')";
     mysqli_query($connect, $query);
-    return mysqli_affected_rows($connect);
 }
 ?>

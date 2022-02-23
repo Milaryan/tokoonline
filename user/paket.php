@@ -41,6 +41,7 @@ foreach ($paket as $key => $tiap){
     echo"<option
     paket='".$tiap['service']."'
     ongkir='".$tiap["cost"]["0"]["value"]."'
+    value='".$tiap["cost"]["0"]["value"]."'
     etd='".$tiap["cost"]["0"]["etd"]."'>";
     echo $tiap["service"]." ";
     echo number_format($tiap["cost"]["0"]["value"])." ";

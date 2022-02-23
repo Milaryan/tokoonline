@@ -1,6 +1,12 @@
 <?php
 include_once "fcheck.php";
 session_start();
+if (!isset($_SESSION["login"])) {
+    header("location: login.php");
+}
+if ($_SESSION["role"] == "admin") {
+    header("location: ../admin/index3.php");
+ }
 
 $uid = $_SESSION["uid"];
 $tgl = date('d-m-Y');
@@ -8,15 +14,15 @@ $uit = $tgl . $uid;
 $res = mysqli_query($connect, "SELECT SUM(harga * qty) FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
 $row = mysqli_fetch_row($res);
 $sum = $row[0];
+$idt = date('dmyhs').$_SESSION["uid"];
 
 if (isset($_POST["submit"])) {
-    if (tambahdata($_POST) > 0 & checkongkir($_POST) > 0) {
+    if (tambahdata($_POST) > 0) {
         echo "<script>alert('data berhasil ditambahkan');
-        document.location.href = '#';</script> ";
+        document.location.href = 'nota.php';</script> ";
     } else {
         echo "<script>alert('data gagal ditambahkan');
-        document.location.href = '#';</script> ";
-        var_dump($connect);
+        document.location.href = 'checkout.php';</script> ";
     }
 }
 
@@ -124,12 +130,14 @@ if (isset($_POST["submit"])) {
                                         <input type="hidden" name="estimasi">
                                         <input type="hidden" name="tgl" value="<?= $tgl;?>">
                                         <input type="hidden" name="user_id" value="<?= $uid;?>">
+                                        <input type="hidden" name="pembelian" value="<?= $sum;?>">
+                                        <input type="text" name="idt" value="<?= $idt?>">
                                     </div>
                                     <div class="col-12 mb-3">
                                         <input type="text" class="form-control mb-3" name="alamat_lengkap" id="alamat_lengkap" placeholder="Alamat Lengkap" value="">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input type="number" class="form-control" name="no_hp" id="no_hp" min="0" placeholder="No. Telp/Handpone" value="">
+                                        <input type="text" class="form-control" name="no_hp" id="no_hp" min="0" placeholder="No. Telp/Handpone" value="">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <input type="text" class="form-control" name="kodepos" id="kodepos" placeholder="Kode Pos" value="">
@@ -278,7 +286,7 @@ if (isset($_POST["submit"])) {
             success:function(hasilp){
                 $("select[name=paket").html(hasilp);
 
-                //lrtakkan nama ekspedisi terpilih di input ekspedisi
+                //letakkan nama ekspedisi terpilih di input ekspedisi
                 $("input[name=nama_ekspedisi]").val(ekspedisi_pilihan)
             }
         });

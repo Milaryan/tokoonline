@@ -4,6 +4,10 @@ session_start();
 if (!isset($_SESSION["login"])) {
     header("location: login.php");
 }
+
+if ($_SESSION["role"] == "admin") {
+    header("location: ../admin/index3.php");
+ }
 $daftarkategori = barang("SELECT * FROM kategori");
 $databarang = barang("SELECT b.id,b.nama, b.stok,b.harga,k.name, b.image, b.kategori_id
 FROM barang AS b

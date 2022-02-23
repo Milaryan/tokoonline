@@ -36,6 +36,7 @@ if (isset($_POST["login"])) {
             }
         }
         if ($row['role'] == "admin") {
+            $_SESSION['uid'] = $row["id"];
             $_SESSION['role'] = "admin";
             // alihkan ke halaman dashboard admin
             header("location:../admin/index3.php");

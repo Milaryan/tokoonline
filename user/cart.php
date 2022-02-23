@@ -4,6 +4,9 @@ session_start();
 if (!isset($_SESSION["login"])) {
     header("location: login.php");
 }
+if ($_SESSION["role"] == "admin") {
+    header("location: ../admin/index3.php");
+ }
 $uid = $_SESSION["uid"];
 $cart = barang("SELECT b.nama, c.qty, b.image, b.harga, c.id, b.stok FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
 // penjumlahan total akhir
