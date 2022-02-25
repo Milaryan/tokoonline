@@ -14,7 +14,7 @@ $uit = $tgl . $uid;
 $res = mysqli_query($connect, "SELECT SUM(harga * qty) FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
 $row = mysqli_fetch_row($res);
 $sum = $row[0];
-$idt = date('dmyhs').$_SESSION["uid"];
+$idt = date('dmyis').$_SESSION["uid"];
 
 if (isset($_POST["submit"])) {
     if (tambahdata($_POST) > 0) {
@@ -106,7 +106,7 @@ if (isset($_POST["submit"])) {
                                         <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" name="perusahaan" id="perusahaan" placeholder="Nama Perusahaan" value="">
+                                        <input type="text" class="form-control" name="perusahaan" id="perusahaan" placeholder="Nama Perusahaan" value="" >
                                     </div>
                                     <div class="col-md-6 mb-3 halo">
                                         <select class="w-100" id="provinsi" name="provinsi">
@@ -131,7 +131,7 @@ if (isset($_POST["submit"])) {
                                         <input type="hidden" name="tgl" value="<?= $tgl;?>">
                                         <input type="hidden" name="user_id" value="<?= $uid;?>">
                                         <input type="hidden" name="pembelian" value="<?= $sum;?>">
-                                        <input type="text" name="idt" value="<?= $idt?>">
+                                        <input type="hidden" name="idt" value="<?= $idt?>">
                                     </div>
                                     <div class="col-12 mb-3">
                                         <input type="text" class="form-control mb-3" name="alamat_lengkap" id="alamat_lengkap" placeholder="Alamat Lengkap" value="">
@@ -175,7 +175,7 @@ if (isset($_POST["submit"])) {
                     </div>
                     <div class="col-12 col-lg-4">
                         <div class="cart-summary">
-                            <h5>Cart Total</h5>
+                            <h5>Metode Pembayaran</h5>
                             
                             <div class="payment-method">
                                 <!-- Cash on delivery -->

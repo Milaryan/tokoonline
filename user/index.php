@@ -105,7 +105,7 @@ ON b.kategori_id = k.id;");
                             <div class="hover-content">
                                 </style>
                                 <div class="line"></div>
-                                <p> Rp<?= number_format($data['harga']); ?></p>
+                                <p> Rp <?= number_format($data['harga']); ?></p>
                                 <h4><?= $data['nama'] ?></h4>
                             </div>
                         </a>

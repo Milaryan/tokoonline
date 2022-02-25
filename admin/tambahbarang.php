@@ -97,6 +97,7 @@ if (isset($_POST["submit"])) {
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                                <button type="submit" class="btn btn-primary" name="submit" ><a style="color: white;" href="databarang.php">Kembali</a></button>
                             </form>
                         </div>
                         <!-- /.card -->

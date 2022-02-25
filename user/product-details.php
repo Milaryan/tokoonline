@@ -75,7 +75,7 @@ $ubah = barang("SELECT * FROM barang WHERE id = $id")[0];
                     <div class="col-12">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mt-50">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#">Furniture</a></li>
                                 <li class="breadcrumb-item"><a href="#">Chairs</a></li>
                                 <li class="breadcrumb-item active" aria-current="page"><?= $ubah["nama"] ?></li>

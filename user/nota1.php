@@ -11,22 +11,8 @@ if ($_SESSION["role"] == "admin") {
  $uid = $_SESSION['uid'];
  $nota = mysqli_query($connect, "SELECT nama_depan, nama_belakang, kota, nama_perusahaan, provinsi, no_hp, ongkir, ekspedisi, paket, pembelian, alamat_lengkap, tgl, estimasi, id_trans FROM ongkir INNER JOIN alamat using(user_id) WHERE user_id='$uid'");
  $result = mysqli_fetch_assoc($nota);
- $cart = barang("SELECT b.nama, c.qty, b.image, b.harga, c.id, b.stok, b.id FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
- $idt = date('dmyis').$_SESSION["uid"];
+ $sold = barang("SELECT * FROM sold ") ;
  
-
- if (isset($_POST["submit"])) {
-    if (tambahsold($_POST) > 0) {
-        echo "<script>alert('data berhasil ditambahkan');
-        document.location.href = 'nota1.php';</script> ";
-    }else{
-        echo "<script>alert('data gagal ditambahkan');
-        document.location.href = '#';</script> ";
-        var_dump($connect);
-    }
-}
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,24 +72,15 @@ if ($_SESSION["role"] == "admin") {
                 <div class="row">
                     <div class="col-12">
                         <div class="container card shadow overflow-hidden p-5 m-auto" style="width: 100%;">
-                            <h3 class="text-center">Detail Pembayaran</h3>
+                            <h3 class="text-center">Selesai</h3>
                             <hr />
                             <form action="" method="POST">
                             <table style="margin-bottom: 10px;">
                                 <tr>
-                                <input type="hidden" value="<?= $result["id_trans"] ?>" name="idt">
-                                <input type="hidden" name="user_id" value="<?= $uid;?>">
-                                <input type="hidden" name="pembelian" value="<?= $result["pembelian"]?>">
+                                    <td>ID    : <?= $result["id_trans"]; ?></td>
+                                </tr>
+                                <tr>
                                     <td>Nama    : <?= $result["nama_depan"]." ".$result["nama_belakang"]; ?></td>
-                                </tr>
-                                <tr>
-                                    <td>Alamat  : <?= $result["alamat_lengkap"].", ".$result["kota"].", ".$result["provinsi"] ?></td>
-                                </tr>
-                                <tr>
-                                    <td>Perusahaan : <?= $result["nama_perusahaan"]?></td>
-                                </tr>
-                                <tr>
-                                    <td>No. Hp   : <?= $result["no_hp"] ?></td>
                                 </tr>
                                 <tr>
                                     <td>Tgl      : <?= $result["tgl"]?></td>
@@ -135,7 +112,7 @@ if ($_SESSION["role"] == "admin") {
                                         $a = 1;
                                         ?>
                                         <?php
-                                        foreach ($cart as $data) :
+                                        foreach ($sold as $data) :
                                         ?>
                                             <?php
                                             
@@ -143,21 +120,12 @@ if ($_SESSION["role"] == "admin") {
                                             <tr>
                                                 <th scope="row"><?= $a ?></th>
 
-                                                <input type="hidden" value="<?= $uid ?>" name="user_id">
+                                                <input type="hidden" value="<?= $uid ?>" name="userid">
                                                 <input type="hidden" value="proses" name="status">
-                                                <input type="hidden" value="<?= $data["id"]?>" name="produk_id[]">
-                                                <input type="hidden" value="<?= $id_transaksi ?>" name="transaksi">
-                                                <input type="hidden" value="<?= $data["nama"] ?>" name="produk[]">
-                                                <input type="hidden" name="sbelum[]" id="sbelum" value="<?= $data["stok"] ?>">
-                                                <input type="hidden" value="<?= $data["qty"] ?>" name="stokdibeli[]">
-                                                <?php
-                                                    $stokbaru = $data["stok"] - $data["qty"];
-                                                ?>
-                                                <input type="hidden" value="<?= $stokbaru ?>" name="stokbaru[]">
-            
-                                                <td><?= $data["nama"] ?></td>
-                                                <td><?= $data["qty"] ?></td>
-                                                <td>Rp <?= number_format($data["qty"] * $data["harga"]); ?></td>
+                                                
+                                                <td><?= $data["produk"] ?></td>
+                                                <td><?= $data["stok"] ?></td>
+                                                <td>Rp <?= number_format($data["harga"]); ?></td>
                                             </tr>
                                             <?php
                                             $a++;
@@ -175,7 +143,7 @@ if ($_SESSION["role"] == "admin") {
                                         </tr>
                                         <tr>
                                             <td colspan="4">
-                                                <button type="submit" class="amado-btn" name="submit">Konfirmasi</a></button>
+                                            <a href="index.php" class="btn amado-btn w-25">Kembali</a>
                                             </td>
 
                                         </tr>
