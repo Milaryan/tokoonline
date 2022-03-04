@@ -5,7 +5,7 @@ session_start();
 if (!isset($_SESSION["login"])) {
   header("location: ../user/login.php");
 }
-$databarang = barang("SELECT b.id,b.nama, b.stok,b.harga,k.name, b.image
+$databarang = barang("SELECT b.id,b.nama, b.stok,b.harga,b.berat,k.name, b.image
 FROM barang AS b
 INNER JOIN kategori AS k
 ON b.kategori_id = k.id");
@@ -211,6 +211,7 @@ if (isset($_POST["cari"])) {
                       <th>Nama</th>
                       <th>Stok</th>
                       <th>Harga</th>
+                      <th>Berat</th>
                       <th>Kategori</th>
                       <th>Gambar</th>
                       <th>Action</th>
@@ -228,7 +229,8 @@ if (isset($_POST["cari"])) {
                         <td><?= $a ?></td>
                         <td><?= $data["nama"]; ?></td>
                         <td><?= $data["stok"]; ?></td>
-                        <td><span class="tag tag-success"><?= $data["harga"] ?></span></td>
+                        <td><span class="tag tag-success"><?= number_format( $data["harga"] )?></span></td>
+                        <td><?= $data["berat"]?> gram</td>
                         <td><?= $data["name"] ?></td>
                         <td><img style="max-width: 100px;" src="img/<?= $data['image'] ?>"></td>
                         <td>

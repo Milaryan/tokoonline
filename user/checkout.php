@@ -14,7 +14,10 @@ $uit = $tgl . $uid;
 $res = mysqli_query($connect, "SELECT SUM(harga * qty) FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
 $row = mysqli_fetch_row($res);
 $sum = $row[0];
-$idt = date('dmyis').$_SESSION["uid"];
+$resj = mysqli_query($connect, "SELECT SUM(berat * qty) FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
+$rowj = mysqli_fetch_row($resj);
+$sumj = $rowj[0];
+$idt = $_SESSION["uid"].date('midys');
 
 if (isset($_POST["submit"])) {
     if (tambahdata($_POST) > 0) {
@@ -119,7 +122,7 @@ if (isset($_POST["submit"])) {
                                         </select>
                                     </div>
                                     <div>
-                                        <input type="hidden" name="total_berat" value="1200">
+                                        <input type="hidden" name="total_berat" value="<?= $sumj?>">
                                         <input type="hidden" name="letak_provinsi" >
                                         <input type="hidden" name="letak_kota">
                                         <input type="hidden" name="tipe">

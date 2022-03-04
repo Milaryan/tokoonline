@@ -12,7 +12,7 @@ if ($_SESSION["role"] == "admin") {
     header("location: ../admin/index3.php");
  }
  $uid = $_SESSION['uid'];
- $nota = mysqli_query($connect, "SELECT nama_depan, nama_belakang, kota, nama_perusahaan, provinsi, no_hp, ongkir, ekspedisi, paket, pembelian, alamat_lengkap, tgl, estimasi, id_trans FROM ongkir INNER JOIN alamat using(user_id) WHERE user_id='$uid'");
+ $nota = mysqli_query($connect, "SELECT nama_depan, nama_belakang, kota, nama_perusahaan, provinsi, no_hp, ongkir, ekspedisi, paket, pembelian, alamat_lengkap, tgl, estimasi, id_trans, berat FROM ongkir INNER JOIN alamat using(user_id) WHERE user_id='$uid'");
  $result = mysqli_fetch_assoc($nota);
  $cart = barang("SELECT b.nama, c.qty, b.image, b.harga, c.id, b.stok, b.id FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
  $idt = $_SESSION["uid"].date('midys');
@@ -116,6 +116,7 @@ if ($_SESSION["role"] == "admin") {
                                 <input type="hidden" name="jasa" value="<?= $result['ekspedisi']?>">
                                 <input type="hidden" name="est" value="<?= $result["estimasi"]?>">
                                 <input type="hidden" name="ongkir" value="<?= $result["ongkir"]?>">
+                                <input type="hidden" name="berat" value="<?= $result["berat"]?>">
                                 <input type="hidden" name="total" value="<?= $total;?>">
                                     <td>Nama    : <?= $result["nama_depan"]." ".$result["nama_belakang"]; ?></td>
                                 </tr>
@@ -202,7 +203,7 @@ if ($_SESSION["role"] == "admin") {
                                         </tr>
                                         <tr>
                                         <td >
-                                                <button type="submit" class="amado-btn" name="kembali">Kembali</a></button>
+                                                <button type="submit" class="amado-btn" name="kembali" onclick="return confirm('Pembayaran akan dibatalkan?')">Kembali</button>
                                             </td>
                                             <td >
                                                 <button type="submit" class="amado-btn" name="submit">Konfirmasi</a></button>

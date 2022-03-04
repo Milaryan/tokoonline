@@ -16,10 +16,11 @@ function tambah($data)
     $nama = htmlspecialchars($data["nama"]);
     $stok = htmlspecialchars($data["stok"]);
     $harga = htmlspecialchars($data["harga"]);
+    $berat = htmlspecialchars($data["berat"]);
     $kategori = htmlspecialchars($data["kategori_id"]);
     $image = upload();
     $detail = htmlspecialchars($data["detail"]);
-    $query = "INSERT INTO barang VALUES ('','$nama','$stok','$harga','$kategori','$image','$detail')";
+    $query = "INSERT INTO barang VALUES ('','$nama','$stok','$harga', '$berat','$kategori','$image','$detail')";
     mysqli_query($connect, $query);
     return mysqli_affected_rows($connect);
 }
@@ -69,6 +70,7 @@ function ubah($data)
     $nama = htmlspecialchars($data["nama"]);
     $stok = htmlspecialchars($data["stok"]);
     $harga = htmlspecialchars($data["harga"]);
+    $berat = htmlspecialchars($data["berat"]);
     $kategori = htmlspecialchars($data["kategori_id"]);
     $gambarlama = $data["gambarlama"];
     if ($_FILES['image']['error'] === 4) {
@@ -81,6 +83,7 @@ function ubah($data)
                 nama='$nama',
                 stok= '$stok',
                 harga='$harga',
+                berat='$berat',
                 kategori_id='$kategori',
                 image='$image',
                 detail= '$detail'

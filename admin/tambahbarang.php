@@ -76,6 +76,10 @@ if (isset($_POST["submit"])) {
                                     <input type="number" class="form-control" id="harga" name="harga" required autocomplete="off">
                                 </div>
                                 <div class="form-group">
+                                    <label for="berat">Berat:</label>
+                                    <input type="number" class="form-control" id="berat" name="berat" placeholder="Berat satuan gram ( 1kg = 1000 g )" required autocomplete="off">
+                                </div>
+                                <div class="form-group">
                                     <label for="gambar">Gambar:</label>
                                     <input type="file" class="form-control" id="gambar" name="image" autocomplete="off" onchange="readURL(this);" style="max-width: 150px;">
                                     <img id="blah" src="http://placehold.it/180" alt="your image" />

@@ -30,13 +30,14 @@ function tambahdata($data)
     $ekspedisi = htmlspecialchars($data["nama_ekspedisi"]);
     $paket = htmlspecialchars($data["nama_paket"]);
     $ongkir = htmlspecialchars($data["jml_ongkir"]);
+    $berat = $data["total_berat"];
     $pembelian = htmlspecialchars($data["pembelian"]);
     $estimasi = htmlspecialchars($data["estimasi"]);
     $tgl = htmlspecialchars($data["tgl"]);
     $idt = $data["idt"];
 
     $query = "INSERT INTO alamat VALUES ('','$uid','$nama1','$nama2','$email','$perusahaan','$prov','$kota','$alamat', '$no_hp','$kodepos')";
-    $query1 = "INSERT INTO ongkir VALUES ('','$uid','$idt','$ekspedisi','$paket','$ongkir','$pembelian','$estimasi','$tgl')";
+    $query1 = "INSERT INTO ongkir VALUES ('','$uid','$idt','$ekspedisi','$paket','$ongkir', '$berat','$pembelian','$estimasi','$tgl')";
 
     mysqli_query($connect, $query);
     mysqli_query($connect, $query1);

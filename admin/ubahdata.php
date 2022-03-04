@@ -88,6 +88,10 @@ if (isset($_POST["submit"])) {
                                     <input type="number" class="form-control" id="harga" name="harga" required required value="<?= $ubah["harga"] ?>">
                                 </div>
                                 <div class="form-group">
+                                    <label for="berat">Berat:</label>
+                                    <input type="number" class="form-control" id="berat" name="berat" required required value="<?= $ubah["berat"] ?>">
+                                </div>
+                                <div class="form-group">
                                     <label for="gambar">Gambar Sebelum:</label>
                                     <div class="form-group">
                                         <img width="100" src="img/<?= $ubah["image"] ?>" alt="" srcset="">
@@ -109,6 +113,7 @@ if (isset($_POST["submit"])) {
                                         ?>
                                     </select>
                                 </div>
+                                <button type="button" class="btn btn-primary" name="back"><a style="color: white;" href="databarang.php">Kembali</a></button>
                                 <button type="submit" class="btn btn-primary" name="submit">Submit</button>
                             </form>
                         </div>

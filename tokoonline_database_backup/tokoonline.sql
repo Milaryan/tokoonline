@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2022 at 03:48 PM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 8.0.8
+-- Waktu pembuatan: 04 Mar 2022 pada 09.30
+-- Versi server: 10.4.20-MariaDB
+-- Versi PHP: 8.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `barang`
+-- Struktur dari tabel `barang`
 --
 
 CREATE TABLE `barang` (
@@ -32,25 +32,28 @@ CREATE TABLE `barang` (
   `nama` varchar(40) NOT NULL,
   `stok` int(5) NOT NULL,
   `harga` int(15) NOT NULL,
+  `berat` varchar(12) NOT NULL,
   `kategori_id` varchar(20) NOT NULL,
   `image` varchar(500) NOT NULL,
   `detail` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `barang`
+-- Dumping data untuk tabel `barang`
 --
 
-INSERT INTO `barang` (`id`, `nama`, `stok`, `harga`, `kategori_id`, `image`, `detail`) VALUES
-(38, 'Kijang Innova thn 2020', 100, 45000000, '2', '620c619921f6a.png', 'Mobil dengan model keluaran terbaru yang didesain oleh desainer papan atas dan menggunakan mesin inject yang membuat bensin menjadi irit serta kursi jok yang nyaman dan empuk sampai membuat anda tertidur pulas.'),
-(39, 'Yamaha Vixion R 2022', 100, 18000000, '3', '620c673f1604f.png', 'Motor Keluaran Terbaru dengan desain yanga akan membuat anda terlihat keren dengan hanya menaikinya dan dibuat oleh teknisi tingkat dunia.'),
-(40, 'Sticker', 500, 25000, '4', '620c68ac4765f.png', 'Didesain agar terlihat seperti hidup dimata yang melihatnya.'),
-(41, 'Stella', 1500, 15000, '4', '620c6bed1944d.png', 'Pengharum mobil yang akan menyegarkan hari-hari anda diperjalanan.');
+INSERT INTO `barang` (`id`, `nama`, `stok`, `harga`, `berat`, `kategori_id`, `image`, `detail`) VALUES
+(43, 'Mobil Tua', 38, 50000000, '50000', '2', '6218570aa24c6.png', 'Mobil OK Minus Gores Dikit Bisa Dinego'),
+(44, 'Motor Butut', 92, 1000000, '6000', '3', '62185774828ed.png', 'Kondisi OK Minus Mesin Hancur Berantakan Velg Bengkok Dikit'),
+(45, 'Stella', 973, 15000, '100', '4', '621857a198be7.png', 'Menyegarkan Hari Harimu'),
+(46, 'Nmax thn 2018', 140, 15000000, '8000', '3', '621857e6c0fd3.png', 'Kondisi Mulus No Minus Cuma Yang Punya Agak Minus'),
+(47, 'Velg RCB', 122, 500000, '1000', '6', '62185a2ce8f5c.png', 'Siap Pakai Tinggal Pasang Jleb Ahhh'),
+(48, 'Gantungan Mobil', 142, 20000, '250', '4', '622191e592c6d.png', 'Mengalihkan pandangan dari jalanan dan mengindahkan harimu :)');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cart`
+-- Struktur dari tabel `cart`
 --
 
 CREATE TABLE `cart` (
@@ -61,17 +64,16 @@ CREATE TABLE `cart` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `cart`
+-- Dumping data untuk tabel `cart`
 --
 
 INSERT INTO `cart` (`id`, `user_id`, `id_produk`, `qty`) VALUES
-(17, 16, 38, 1),
-(18, 16, 40, 4);
+(80, 17, 47, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kategori`
+-- Struktur dari tabel `kategori`
 --
 
 CREATE TABLE `kategori` (
@@ -80,7 +82,7 @@ CREATE TABLE `kategori` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `kategori`
+-- Dumping data untuk tabel `kategori`
 --
 
 INSERT INTO `kategori` (`id`, `name`) VALUES
@@ -92,22 +94,39 @@ INSERT INTO `kategori` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sold`
+-- Struktur dari tabel `sold`
 --
 
 CREATE TABLE `sold` (
   `id` int(11) NOT NULL,
-  `id_transaksi` int(11) NOT NULL,
+  `id_trans` varchar(25) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `nama` varchar(30) NOT NULL,
+  `produk` varchar(50) NOT NULL,
   `stok` int(11) NOT NULL,
-  `status` varchar(40) NOT NULL
+  `harga` varchar(20) NOT NULL,
+  `tgl` varchar(12) NOT NULL,
+  `jasa` varchar(25) NOT NULL,
+  `ongkir` varchar(12) NOT NULL,
+  `berat` varchar(12) NOT NULL,
+  `est` varchar(6) NOT NULL,
+  `total` varchar(12) NOT NULL,
+  `totala` varchar(12) NOT NULL,
+  `proses` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `sold`
+--
+
+INSERT INTO `sold` (`id`, `id_trans`, `user_id`, `nama`, `produk`, `stok`, `harga`, `tgl`, `jasa`, `ongkir`, `berat`, `est`, `total`, `totala`, `proses`) VALUES
+(51, '040322101616', 16, 'Ismail Mail', 'Gantungan Mobil', 4, '80000', '04-03-2022', 'pos', '648000', '9000', '9 HARI', '15080000', '15728000', 'proses'),
+(52, '040322101616', 16, 'Ismail Mail', 'Nmax thn 2018', 1, '15000000', '', 'pos', '648000', '9000', '9 HARI', '15080000', '15728000', 'proses');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `stok`
+-- Struktur dari tabel `stok`
 --
 
 CREATE TABLE `stok` (
@@ -122,7 +141,7 @@ CREATE TABLE `stok` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Struktur dari tabel `user`
 --
 
 CREATE TABLE `user` (
@@ -134,94 +153,94 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `user`
+-- Dumping data untuk tabel `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `role`) VALUES
 (8, 'admin', 'admin', '$2y$10$gRHUhvXbp8p6rwraakEkOur3GT3PjMNnHG/Cs9f2URbHiqRfI1Qca', 'admin'),
-(9, 'rossy', 'rossy@gmail.com', '$2y$10$tH4v6d1Xf24ldgImyWaCBuH0G9AKgOU6LMZH13ktn8hp3VSftMZim', 'user'),
 (10, 'wendy', 'wendy@gmail.com', '$2y$10$faylHxfTrQBN77nZcxHDy.XLoQ7PaePrpbn98SfEUyFncv5sQbRT6', 'user'),
-(16, 'vian', 'vian@gmail.com', '$2y$10$0yOhcxP7feP2kl/eFbXPtePxUxSADo3ykLJ7E6rbHUXWCqg4sNxja', 'user');
+(16, 'vian', 'vian@gmail.com', '$2y$10$0yOhcxP7feP2kl/eFbXPtePxUxSADo3ykLJ7E6rbHUXWCqg4sNxja', 'user'),
+(17, 'mail', 'mail@gmail.com', '$2y$10$6/So5G1Zn4Fgl8epZxXCGekLeW.X.2N4xQ2wDKU7GqnrZraBGbJwy', 'user');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `barang`
+-- Indeks untuk tabel `barang`
 --
 ALTER TABLE `barang`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `cart`
+-- Indeks untuk tabel `cart`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `kategori`
+-- Indeks untuk tabel `kategori`
 --
 ALTER TABLE `kategori`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `sold`
+-- Indeks untuk tabel `sold`
 --
 ALTER TABLE `sold`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `stok`
+-- Indeks untuk tabel `stok`
 --
 ALTER TABLE `stok`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `user`
+-- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `barang`
+-- AUTO_INCREMENT untuk tabel `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
--- AUTO_INCREMENT for table `cart`
+-- AUTO_INCREMENT untuk tabel `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
--- AUTO_INCREMENT for table `kategori`
+-- AUTO_INCREMENT untuk tabel `kategori`
 --
 ALTER TABLE `kategori`
   MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `sold`
+-- AUTO_INCREMENT untuk tabel `sold`
 --
 ALTER TABLE `sold`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
--- AUTO_INCREMENT for table `stok`
+-- AUTO_INCREMENT untuk tabel `stok`
 --
 ALTER TABLE `stok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

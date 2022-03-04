@@ -23,16 +23,15 @@ function tambahsold($data)
     $tgl = $data["tgl"];
     $jasa = $data["jasa"];
     $ongkir = $data["ongkir"];
+    $berat = $data["berat"];
     $est = $data["est"];
     $totala = $data["total"];
     $status = htmlspecialchars($data["status"]);
     $jumlah_dipilih = count($produk);
 
     for ($x = 0; $x < $jumlah_dipilih; $x++) {
-        $query = "INSERT INTO sold VALUES ('','$transaksi','$uid','$nama' ,'$produk[$x]','$stokdibeli[$x]','$harga[$x]' ,'$tgl[$x]', '$jasa', '$ongkir', '$est', '$total', '$totala','$status')";
+        $query = "INSERT INTO sold VALUES ('','$transaksi','$uid','$nama' ,'$produk[$x]','$stokdibeli[$x]','$harga[$x]' ,'$tgl[$x]', '$jasa', '$ongkir', '$berat', '$est', '$total', '$totala','$status')";
         mysqli_query($connect, $query);
-        $nota = "INSERT INTO nota VALUES ('', '$uid', '$transaksi')";
-        mysqli_query($connect,$nota);
     }
     //hapus cart setelah confirm
     $uid = htmlspecialchars($data["user_id"]);

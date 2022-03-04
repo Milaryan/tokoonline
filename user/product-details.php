@@ -123,7 +123,8 @@ $ubah = barang("SELECT * FROM barang WHERE id = $id")[0];
                                     </div>
                                 </div>
                                 <!-- Avaiable -->
-                                <p class="avaibility"><i class="fa fa-circle"></i> STOK: <?= $ubah["stok"] ?></p>
+                                <p class="avaibility"><i class="fa fa-circle"></i> STOK: <?= $ubah["stok"] ?></p></br>
+                                <p class="avaibility">Berat : <?= $ubah["berat"] / 1000?> kg</p>
                             </div>
 
                             <div class="short_overview my-5">

@@ -95,6 +95,7 @@ $call = mysqli_query($connect,"SELECT id_trans,nama,produk,stok,harga,tgl,jasa,o
                                         <th>Nama</th>
                                         <th>Total</th>
                                         <th>Estimasi</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                             <?php foreach ($halo as $carta) : ?>
@@ -103,7 +104,7 @@ $call = mysqli_query($connect,"SELECT id_trans,nama,produk,stok,harga,tgl,jasa,o
                                     
                                         <tr>
                                             <td>
-                                                <h5><a href="nota1.php?=<?= $carta["id_trans"]?>"><?= $carta["id_trans"]?></a></h5>
+                                                <h5><a href="nota1.php?id=<?= $carta["id_trans"]?>"><?= $carta["id_trans"]?></a></h5>
                                             </td>
                                             <?php
                                             $ID = $carta["id_trans"];
@@ -122,29 +123,11 @@ $call = mysqli_query($connect,"SELECT id_trans,nama,produk,stok,harga,tgl,jasa,o
                                                 <span>Rp. <?= number_format($carta["totala"]);  ?></span>
                                             </td>
                                             <td>
-                                                <span><?= $carta["est"]?></span>
+                                                <span><?= $carta["est"]?> </span>
                                             </td>
-                                            <!-- <td class=" qty">
-                                                <div class="qty-btn d-flex">
-                                                    <div class="quantity">
-                                                        <style>
-                                                            input[type=number]::-webkit-inner-spin-button {
-                                                                opacity: 1;
-                                                                -webkit-appearance: caps-lock-indicator;
-                                                                -webkit-appearance: textfield;
-                                                                -moz-appearance: textfield;
-                                                                appearance: textfield;
-                                                            }
-                                                        </style>
-                                                        <input class=" qty" onblur="qty(this)" style="text-align:center;" id="<?php echo $carta['id']; ?>" type="number" value="<?php echo $carta['qty']; ?>" min="1" max="<?= $carta['stok'] ?>">
-
-                                                        <a class="ml-1" href="hapuscart.php?id=<?= $carta["id"]; ?>" role="button" onclick="return confirm('Yakin ingin menghapus?')">
-                                                            <p style="display: inline; padding: 0%;"><i class="fa fa-trash"></i></p>
-
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td> -->
+                                            <td>
+                                                <span><?= $carta["proses"]?></span>
+                                            </td>
                                             
                                         </tr>
 

@@ -9,7 +9,7 @@ if ($_SESSION["role"] == "admin") {
     header("location: ../admin/index3.php");
  }
  $uid = $_SESSION['uid'];
- $call = mysqli_query($connect,"SELECT id_trans,nama,produk,stok,harga,tgl,jasa,ongkir,est,total,totala,proses FROM sold ");
+ $call = mysqli_query($connect,"SELECT id_trans,nama,produk,stok,harga,tgl,jasa,ongkir,berat,est,total,totala,proses FROM sold ");
  $nota = mysqli_fetch_assoc($call);
  $halo = barang("SELECT * FROM sold");
  
@@ -95,6 +95,9 @@ if ($_SESSION["role"] == "admin") {
                                 </tr>
                                 <tr>
                                     <td>Estimasi : <?= $nota["est"]?></td>
+                                </tr>
+                                <tr>
+                                    <td>Berat Total : <?= $nota["berat"]/1000?> kg</td>
                                 </tr>
                             </table>
                             <form action="" method="post">
