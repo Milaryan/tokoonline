@@ -147,13 +147,10 @@ if (isset($_POST["submit"])) {
                                             <option>Pilih Jasa Pengiriman</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-6 mb-3 halo">
+                                    <div class="col-md-6 mb-5 halo">
                                         <select class="w-100" id="paket" name="paket">
                                             <option>Pilih Paket</option>
                                         </select>
-                                    </div>
-                                    <div class="col-12 mb-3">
-                                        <textarea name="comment" class="form-control w-100" name="comment" id="comment" cols="30" rows="10" placeholder="Tinggalkan Pesan Untuk Pesanan Anda"></textarea>
                                     </div>
                                     <div class="cart-btn col-3 mb-3">
                                         <button type="submit" name="submit" class="btn amado-btn w-100">Buat Pesanan</button>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once "connect.php";
-include_once "fbeli.php";
+include_once "fdatatk.php";
 if (!isset($_SESSION["login"])) {
     header("location: login.php");
 }
@@ -9,9 +9,9 @@ if ($_SESSION["role"] == "admin") {
     header("location: ../admin/index3.php");
  }
  $uid = $_SESSION['uid'];
- $nota = mysqli_query($connect, "SELECT nama_depan, nama_belakang, kota, nama_perusahaan, provinsi, no_hp, ongkir, ekspedisi, paket, pembelian, alamat_lengkap, tgl, estimasi, id_trans FROM ongkir INNER JOIN alamat using(user_id) WHERE user_id='$uid'");
- $result = mysqli_fetch_assoc($nota);
- $sold = barang("SELECT * FROM sold ") ;
+ $call = mysqli_query($connect,"SELECT id_trans,nama,produk,stok,harga,tgl,jasa,ongkir,est,total,totala,proses FROM sold ");
+ $nota = mysqli_fetch_assoc($call);
+ $halo = barang("SELECT * FROM sold");
  
 ?>
 <!DOCTYPE html>
@@ -72,29 +72,29 @@ if ($_SESSION["role"] == "admin") {
                 <div class="row">
                     <div class="col-12">
                         <div class="container card shadow overflow-hidden p-5 m-auto" style="width: 100%;">
-                            <h3 class="text-center">Selesai</h3>
+                            <h3 class="text-center">Pesanan</h3>
                             <hr />
                             <form action="" method="POST">
                             <table style="margin-bottom: 10px;">
                                 <tr>
-                                    <td>ID    : <?= $result["id_trans"]; ?></td>
+                                    <td>ID    : <?= $nota["id_trans"]; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Nama    : <?= $result["nama_depan"]." ".$result["nama_belakang"]; ?></td>
+                                    <td>Nama    : <?= $nota["nama"]; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Tgl      : <?= $result["tgl"]?></td>
+                                    <td>Tgl      : <?= $nota["tgl"]?></td>
                                 </tr>
                                 <tr>
                                     <td>Jasa Pengiriman: 
-                                        <?PHP if ($result['ekspedisi'] == "pos") {
+                                        <?PHP if ($nota['jasa'] == "pos") {
                                                     echo "POS INDONESIA";}
-                                            else if ($result['ekspedisi']== "tiki"){
+                                            else if ($nota['jasa']== "tiki"){
                                                     echo "TIKI";}
                                             else {echo "JNE";}?></td>
                                 </tr>
                                 <tr>
-                                    <td>Estimasi : <?= $result["estimasi"]?></td>
+                                    <td>Estimasi : <?= $nota["est"]?></td>
                                 </tr>
                             </table>
                             <form action="" method="post">
@@ -112,7 +112,7 @@ if ($_SESSION["role"] == "admin") {
                                         $a = 1;
                                         ?>
                                         <?php
-                                        foreach ($sold as $data) :
+                                        foreach ($halo as $data) :
                                         ?>
                                             <?php
                                             
@@ -122,7 +122,6 @@ if ($_SESSION["role"] == "admin") {
 
                                                 <input type="hidden" value="<?= $uid ?>" name="userid">
                                                 <input type="hidden" value="proses" name="status">
-                                                
                                                 <td><?= $data["produk"] ?></td>
                                                 <td><?= $data["stok"] ?></td>
                                                 <td>Rp <?= number_format($data["harga"]); ?></td>
@@ -135,15 +134,15 @@ if ($_SESSION["role"] == "admin") {
                                         ?>
                                         <tr class="">
                                             <th colspan="3">Ongkir</th>
-                                            <th><?= "Rp " .number_format($result["ongkir"])  ?></th>
+                                            <th>Rp <?= number_format($nota["ongkir"])  ?></th>
                                         </tr>
                                         <tr class="">
                                             <th colspan="3">Total Akhir</th>
-                                            <th>Rp <?= number_format($result["pembelian"]+$result["ongkir"]);  ?></th>
+                                            <th>Rp <?= number_format($nota["totala"]);  ?></th>
                                         </tr>
                                         <tr>
                                             <td colspan="4">
-                                            <a href="index.php" class="btn amado-btn w-25">Kembali</a>
+                                            <a href="rpembelian.php" class="btn amado-btn w-25">Kembali</a>
                                             </td>
 
                                         </tr>

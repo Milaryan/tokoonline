@@ -27,7 +27,6 @@ function tambahdata($data)
     $alamat = htmlspecialchars($data["alamat_lengkap"]);
     $no_hp = htmlspecialchars($data["no_hp"]);
     $kodepos = htmlspecialchars($data["kodepos"]);
-    $pesan = htmlspecialchars($data["comment"]);
     $ekspedisi = htmlspecialchars($data["nama_ekspedisi"]);
     $paket = htmlspecialchars($data["nama_paket"]);
     $ongkir = htmlspecialchars($data["jml_ongkir"]);
@@ -36,7 +35,7 @@ function tambahdata($data)
     $tgl = htmlspecialchars($data["tgl"]);
     $idt = $data["idt"];
 
-    $query = "INSERT INTO alamat VALUES ('','$uid','$nama1','$nama2','$email','$perusahaan','$prov','$kota','$alamat', '$no_hp','$kodepos','$pesan')";
+    $query = "INSERT INTO alamat VALUES ('','$uid','$nama1','$nama2','$email','$perusahaan','$prov','$kota','$alamat', '$no_hp','$kodepos')";
     $query1 = "INSERT INTO ongkir VALUES ('','$uid','$idt','$ekspedisi','$paket','$ongkir','$pembelian','$estimasi','$tgl')";
 
     mysqli_query($connect, $query);

@@ -21,7 +21,7 @@ $jumlah_barang = mysqli_num_rows($data_barang);
         <ul>
             <li style="letter-spacing: 1px;"><a href="index.php">Home</a></li>
             <li style="letter-spacing: 1px;"><a href="cart.php">Keranjang</a></li>
-            <li style="letter-spacing: 1px;"><a href="rpembelian.php">Riwayat Pembelian</a></li>
+            <li style="letter-spacing: 1px;"><a href="rpembelian.php">Pesanan</a></li>
             <li style="letter-spacing: 1px;"><a href="lgantiout.php">Ganti Akun</a></li>
             <li style="letter-spacing: 1px;"><a href="logout.php">Logout</a></li>
         </ul>

@@ -1,4 +1,7 @@
 <?php
+
+use LDAP\Result;
+
 session_start();
 include_once "connect.php";
 include_once "fbeli.php";
@@ -12,19 +15,29 @@ if ($_SESSION["role"] == "admin") {
  $nota = mysqli_query($connect, "SELECT nama_depan, nama_belakang, kota, nama_perusahaan, provinsi, no_hp, ongkir, ekspedisi, paket, pembelian, alamat_lengkap, tgl, estimasi, id_trans FROM ongkir INNER JOIN alamat using(user_id) WHERE user_id='$uid'");
  $result = mysqli_fetch_assoc($nota);
  $cart = barang("SELECT b.nama, c.qty, b.image, b.harga, c.id, b.stok, b.id FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
- $idt = date('dmyis').$_SESSION["uid"];
+ $idt = $_SESSION["uid"].date('midys');
  
 
  if (isset($_POST["submit"])) {
     if (tambahsold($_POST) > 0) {
-        echo "<script>alert('data berhasil ditambahkan');
-        document.location.href = 'nota1.php';</script> ";
+        echo "<script>alert('pembayaran berhasil dilakukan');
+        document.location.href = 'rpembelian.php';</script> ";
     }else{
-        echo "<script>alert('data gagal ditambahkan');
-        document.location.href = '#';</script> ";
-        var_dump($connect);
+        echo "<script>alert('pembayaran gagal dilakukan');
+        document.location.href = 'nota.php';</script> ";
     }
-}
+ }
+
+ if (isset($_POST["kembali"])) {
+    if (hapus($_POST) > 0) {
+        echo "<script>alert('Pembayaran dibatalkan');
+        document.location.href = 'cart.php';</script> ";
+    }else{
+        echo "<script>alert('pembayaran gagal dilakukan');
+        </script> ";
+    }
+    
+ }
 
 
 ?>
@@ -89,18 +102,31 @@ if ($_SESSION["role"] == "admin") {
                             <h3 class="text-center">Detail Pembayaran</h3>
                             <hr />
                             <form action="" method="POST">
+
                             <table style="margin-bottom: 10px;">
                                 <tr>
-                                <input type="hidden" value="<?= $result["id_trans"] ?>" name="idt">
+                                <?php 
+                                $total = $result["pembelian"]+$result["ongkir"];
+                                ?>
+                                <input type="hidden" value="<?= date('dmyis').$_SESSION["uid"]; ?>" name="idt">
                                 <input type="hidden" name="user_id" value="<?= $uid;?>">
                                 <input type="hidden" name="pembelian" value="<?= $result["pembelian"]?>">
+                                <input type="hidden" name="nama" value="<?= $result["nama_depan"]." ".$result["nama_belakang"]?>">
+                                <input type="hidden" name="tgl[]" value="<?= $result["tgl"]?>">
+                                <input type="hidden" name="jasa" value="<?= $result['ekspedisi']?>">
+                                <input type="hidden" name="est" value="<?= $result["estimasi"]?>">
+                                <input type="hidden" name="ongkir" value="<?= $result["ongkir"]?>">
+                                <input type="hidden" name="total" value="<?= $total;?>">
                                     <td>Nama    : <?= $result["nama_depan"]." ".$result["nama_belakang"]; ?></td>
                                 </tr>
                                 <tr>
                                     <td>Alamat  : <?= $result["alamat_lengkap"].", ".$result["kota"].", ".$result["provinsi"] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Perusahaan : <?= $result["nama_perusahaan"]?></td>
+                                    <td>Perusahaan : 
+                                        <?php if($result["nama_perusahaan"] > 0){
+                                            echo $result["nama_perusahaan"];}
+                                            else {echo "-";}?></td>
                                 </tr>
                                 <tr>
                                     <td>No. Hp   : <?= $result["no_hp"] ?></td>
@@ -117,7 +143,7 @@ if ($_SESSION["role"] == "admin") {
                                             else {echo "JNE";}?></td>
                                 </tr>
                                 <tr>
-                                    <td>Estimasi : <?= $result["estimasi"]?></td>
+                                    <td>Estimasi : <?= $result["estimasi"]?> Hari</td> 
                                 </tr>
                             </table>
                             <form action="" method="post">
@@ -150,6 +176,7 @@ if ($_SESSION["role"] == "admin") {
                                                 <input type="hidden" value="<?= $data["nama"] ?>" name="produk[]">
                                                 <input type="hidden" name="sbelum[]" id="sbelum" value="<?= $data["stok"] ?>">
                                                 <input type="hidden" value="<?= $data["qty"] ?>" name="stokdibeli[]">
+                                                <input type="hidden" name="harga[]" value="<?= $data["qty"] * $data["harga"];?>">
                                                 <?php
                                                     $stokbaru = $data["stok"] - $data["qty"];
                                                 ?>
@@ -174,7 +201,10 @@ if ($_SESSION["role"] == "admin") {
                                             <th>Rp <?= number_format($result["pembelian"]+$result["ongkir"]);  ?></th>
                                         </tr>
                                         <tr>
-                                            <td colspan="4">
+                                        <td >
+                                                <button type="submit" class="amado-btn" name="kembali">Kembali</a></button>
+                                            </td>
+                                            <td >
                                                 <button type="submit" class="amado-btn" name="submit">Konfirmasi</a></button>
                                             </td>
 

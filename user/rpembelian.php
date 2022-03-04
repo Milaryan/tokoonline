@@ -8,16 +8,19 @@ if ($_SESSION["role"] == "admin") {
     header("location: ../admin/index3.php");
  }
 $uid = $_SESSION["uid"];
-$cart = barang("SELECT b.nama, c.qty, b.image, b.harga, c.id, b.stok FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
-$nota = mysqli_query($connect, "SELECT nama_depan, nama_belakang, kota, nama_perusahaan, provinsi, no_hp, ongkir, ekspedisi, paket, pembelian, alamat_lengkap, tgl, estimasi, id_trans FROM ongkir INNER JOIN alamat using(user_id) WHERE user_id='$uid'");
+// $cart = barang("SELECT b.nama, c.qty, b.image, b.harga, c.id, b.stok FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
+// $nota = mysqli_query($connect, "SELECT nama_depan, nama_belakang, kota, nama_perusahaan, provinsi, no_hp, ongkir, ekspedisi, paket, pembelian, alamat_lengkap, tgl, estimasi, id_trans FROM ongkir INNER JOIN alamat using(user_id) WHERE user_id='$uid'");
 // // penjumlahan total akhir
-// $res = mysqli_query($connect, "SELECT SUM(harga * qty) FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
+// $res = mysqli_query($connect, "SELECT id_SUM(harga * qty) FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
 // $row = mysqli_fetch_row($res);
 // $sum = $row[0];
 // // jumlah barang di keranjang
 // $resj = mysqli_query($connect, "SELECT SUM(qty) FROM user AS u INNER JOIN cart AS c ON c.user_id=u.id INNER JOIN barang AS b ON b.id=c.id_produk WHERE u.id='$uid'");
 // $rowj = mysqli_fetch_row($resj);
 // $sumj = $rowj[0];
+$call = mysqli_query($connect,"SELECT id_trans,nama,produk,stok,harga,tgl,jasa,ongkir,est,total,totala,proses FROM sold ");
+ $sold = mysqli_fetch_assoc($call);
+ $halo = barang("SELECT * FROM sold GROUP BY id_trans");
 
 ?>
 <!DOCTYPE html>
@@ -81,35 +84,47 @@ $nota = mysqli_query($connect, "SELECT nama_depan, nama_belakang, kota, nama_per
                 <div class="row">
                     <div class="col-12 col-lg-8">
                         <div class="cart-title mt-50">
-                            <h2>Shopping Cart</h2>
+                            <h2>Pesanan</h2>
                         </div>
 
                         <div class="cart-table clearfix">
                             <table class="table table-responsive">
-                            <?php foreach ($cart as $carta) : ?>
-                                <thead>
+                            <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>Dipesan pada :</th>
+                                        <th>ID</th>
+                                        <th>Nama</th>
+                                        <th>Total</th>
+                                        <th>Estimasi</th>
                                     </tr>
-
                                 </thead>
+                            <?php foreach ($halo as $carta) : ?>
 
                                 <tbody>
-                                    <hr>
-                                   
+                                    
                                         <tr>
-
-                                            <td class=" cart_product_img">
-                                                <a href="#"><img src="../admin/img/<?= $carta["image"] ?>" alt="Product"></a>
+                                            <td>
+                                                <h5><a href="nota1.php?=<?= $carta["id_trans"]?>"><?= $carta["id_trans"]?></a></h5>
                                             </td>
+                                            <?php
+                                            $ID = $carta["id_trans"];
+                                            $nama= barang("SELECT s.produk, b.id FROM sold AS s INNER JOIN barang AS b ON b.nama=s.produk WHERE id_trans= $ID");
+                                            ?>
                                             <td class="cart_product_desc">
-                                                <h5><?= $carta["nama"] ?></h5>
+                                                <?php
+                                                foreach($nama as $coba) :
+                                                ?>
+                                                <a href="product-details.php?id=<?= $coba["id"];?>"><h5><?= $coba["produk"] ?></h5></a>
+                                                <?php
+                                                endforeach;
+                                                ?>
                                             </td>
                                             <td class="price">
-                                                <span>Rp. <?= number_format($carta["harga"]);  ?></span>
+                                                <span>Rp. <?= number_format($carta["totala"]);  ?></span>
                                             </td>
-                                            <td class=" qty">
+                                            <td>
+                                                <span><?= $carta["est"]?></span>
+                                            </td>
+                                            <!-- <td class=" qty">
                                                 <div class="qty-btn d-flex">
                                                     <div class="quantity">
                                                         <style>
@@ -129,12 +144,10 @@ $nota = mysqli_query($connect, "SELECT nama_depan, nama_belakang, kota, nama_per
                                                         </a>
                                                     </div>
                                                 </div>
-                                            </td>
-
+                                            </td> -->
+                                            
                                         </tr>
-                                        <tr>
 
-                                        </tr>
                                     <?php endforeach; ?>
 
                                 </tbody>
